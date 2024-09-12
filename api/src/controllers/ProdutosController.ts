@@ -2,17 +2,17 @@ import { Request, Response } from 'express';
 import Produtos from '../model/Produtos';
 
 class ProdutosController {
-    private Produtos: Produtos;
+    private produtos: Produtos;
 
     constructor() {
-        this.Produtos = new Produtos();
+        this.produtos = new Produtos();
         this.listarTodosProdutos = this.listarTodosProdutos.bind(this);
         this.listarApenasUmComTodasInformacoes = this.listarApenasUmComTodasInformacoes.bind(this);
         this.listarApenasPorCategoria = this.listarApenasPorCategoria.bind(this);
     }
 
     async listarTodosProdutos(req: Request, res: Response): Promise<void> {
-        const produtos = await this.Produtos.trazerAllProdutos();
+        const produtos = await this.produtos.trazerAllProdutos();
 
         console.log(produtos);
 
@@ -29,7 +29,7 @@ class ProdutosController {
 
         const convertStringParaNumero: number = Number(id);
 
-        const produtos: Array<string> = await this.Produtos.trazerUmProduto(convertStringParaNumero);
+        const produtos: Array<string> = await this.produtos.trazerUmProduto(convertStringParaNumero);
 
         res.json(produtos);
     }
@@ -37,7 +37,7 @@ class ProdutosController {
     async listarApenasPorCategoria(req: Request, res: Response) {
         const { categoria } = req.params;
 
-        const buscarTodosProdutosPorCategoria = await this.Produtos.buscarPorCategoria(categoria);
+        const buscarTodosProdutosPorCategoria = await this.produtos.buscarPorCategoria(categoria);
 
         if (!buscarTodosProdutosPorCategoria || buscarTodosProdutosPorCategoria.length === 0) {
             return res.status(404).json({ error: 'Categoria não encontrada ou sem produtos' });

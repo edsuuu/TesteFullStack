@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import ProdutosController from '../controllers/ProdutosController';
-import RotaAutenticada from '../middlewares/RotaAutenticada';
+// import RotaAutenticada from '../middlewares/RotaAutenticada';
 
 const produtosRoute: Router = Router();
 
-produtosRoute.get('/', RotaAutenticada, ProdutosController.listarTodosProdutos);
+produtosRoute.get('/', ProdutosController.listarTodosProdutos);
 
-produtosRoute.get('/:id', RotaAutenticada, ProdutosController.listarApenasUmComTodasInformacoes);
+produtosRoute.get('/:id', ProdutosController.listarApenasUmComTodasInformacoes);
 
-produtosRoute.get('/categoria/:categoria', RotaAutenticada, ProdutosController.listarApenasPorCategoria);
+produtosRoute.get('/categoria/:categoria', ProdutosController.listarApenasPorCategoria);
 
 export { produtosRoute };

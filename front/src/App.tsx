@@ -1,8 +1,14 @@
 import React from 'react';
+import { GlobalStyled } from './styles/GlobalStyled';
+import { BrowserRouter } from 'react-router-dom';
+import RotasRegistradas from './rotas';
 
 const App: React.FC = () => {
     return (
-        <h1>test</h1>
+        <BrowserRouter>
+            <RotasRegistradas />
+            <GlobalStyled />
+        </BrowserRouter>
     );
 };
 

@@ -8,11 +8,14 @@ class Produtos {
         try {
             const products = await this.prisma.products.findMany({
                 include: {
+                    colors: true,
                     images: true,
+                    skus: true,
                 },
             });
+            const convertBigInt = JSON.parse(JSON.stringify(products, (key, value) => (typeof value === 'bigint' ? value.toString() : value)));
 
-            return products;
+            return convertBigInt;
         } catch (error) {
             console.log(error);
         }

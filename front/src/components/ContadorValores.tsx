@@ -57,11 +57,14 @@ export const Container = styled.div`
 `;
 
 const ContadorValores: React.FC<ContadorProps> = ({ precoAtual, quantidade, acumulado, aumentarQuantidade, diminuirQuantidade }) => {
+    const acumuladoFormatado = acumulado.toFixed(2).replace('.', ',');
+    const precoFormatado = precoAtual.toFixed(2).replace('.', ',');
+
     return (
         <Container>
             <div className='prices-div'>
                 <h4>Preço Atual</h4>
-                <p>R$ {precoAtual ? precoAtual : '0,00'}</p>
+                <p>R$ {precoFormatado}</p>
             </div>
             <button onClick={diminuirQuantidade}>
                 <FaMinus />
@@ -74,7 +77,7 @@ const ContadorValores: React.FC<ContadorProps> = ({ precoAtual, quantidade, acum
             </button>
             <div className='prices-div'>
                 <h4>Acumulado</h4>
-                <p>R$ {acumulado ? acumulado : '0,00'}</p>
+                <p>R$ {acumuladoFormatado}</p>
             </div>
         </Container>
     );

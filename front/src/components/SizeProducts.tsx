@@ -7,6 +7,7 @@ type SizeProps = {
     tamanhoGG: number;
     tamanhoM: number;
     tamanhoP: number;
+    pack: number;
 }
 
 export const InformacoesDoPack = styled.div`
@@ -95,7 +96,8 @@ export const PackDiv = styled.div`
 
 type TamanhoProps = {
     tamanho?: string;
-    valor: number
+    valor: number;
+
 }
 
 const PequenoCard: React.FC<TamanhoProps> = ({ tamanho, valor }) => {
@@ -111,11 +113,7 @@ const PequenoCard: React.FC<TamanhoProps> = ({ tamanho, valor }) => {
     );
 };
 
-const SizeProducts: React.FC<SizeProps> = ({ tamanhoG, tamanhoGG, tamanhoM, tamanhoP }) => {
-
-    const somarPack = () => {
-        return tamanhoG + tamanhoGG + tamanhoM + tamanhoP;
-    };
+const SizeProducts: React.FC<SizeProps> = ({ tamanhoG, tamanhoGG, tamanhoM, tamanhoP, pack }) => {
 
     return (
         <InformacoesDoPack>
@@ -133,11 +131,11 @@ const SizeProducts: React.FC<SizeProps> = ({ tamanhoG, tamanhoGG, tamanhoM, tama
             </ValoresEtamanho>
             <div>
                 <span>
-                    <FaEquals size={15} color={'#d8d8d8'}/>
+                    <FaEquals size={15} color={'#d8d8d8'} />
                 </span>
             </div>
             <ValoresEtamanho>
-                <PequenoCard valor={somarPack()} />
+                <PequenoCard valor={pack} />
             </ValoresEtamanho>
         </InformacoesDoPack>
     );

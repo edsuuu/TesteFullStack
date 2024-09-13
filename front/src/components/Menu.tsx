@@ -60,9 +60,12 @@ export const Right = styled.div`
         border: none;
         color: #809caa;
         cursor: pointer;
-        padding: 5px 9px;
+        padding: 5px 8px;
         border-radius: 50%;
-        font-weight: bold;
+
+        &:active {
+            transform: scale(0.96)
+        }
     }
 `;
 

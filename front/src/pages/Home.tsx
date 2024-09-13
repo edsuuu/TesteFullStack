@@ -11,6 +11,7 @@ import { TbArrowsUpDown } from 'react-icons/tb';
 import { IoCloseSharp } from 'react-icons/io5';
 import { HttpRequest } from '../services/HttpRequest';
 import { Produto } from './interfaces';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
 export const Container = styled.div`
    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -104,13 +105,46 @@ export const SectionContainerMain = styled.div`
         align-items: center;
         img{
             width: 400px;
-            height: 645px;
+            height: 635px;
 
         }
     }
     .linha-img{
         width: 100%;
         border: 1.5px solid #5da0ad;
+    }
+
+
+    .buttons-trocar-produts{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 2px 20px;
+
+        button {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #809caa;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+
+            &:active {
+                transform: scale(0.96)
+            }
+        }
+
+        button:nth-child(1){
+
+        }
+        button:nth-child(2){
+
+        }
     }
 `;
 
@@ -351,16 +385,16 @@ const Home: React.FC = () => {
             <SectionContainerMain>
                 <div className='containerImg'>
                     <img src={`https://api.forca-de-vendas.integrador.backup.e-catalogos.net/images/2007/${produtoAtual?.images[0].path}`} alt={'image'} />
-                    <div>
+                    <div className='buttons-trocar-produts'>
                         <button
                             onClick={() => alterarProduto((produtoIndex - 1 + produtos.length) % produtos.length)}
                         >
-                            Produto Anterior
+                            <MdArrowBackIosNew />
                         </button>
                         <button
                             onClick={() => alterarProduto((produtoIndex + 1) % produtos.length)}
                         >
-                            Próximo Produto
+                            <MdArrowForwardIos />
                         </button>
                     </div>
                     <div className='linha-img'></div>

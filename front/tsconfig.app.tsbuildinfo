@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/ContadorValores.tsx","./src/components/Menu.tsx","./src/components/SizeProducts.tsx","./src/pages/Home.tsx","./src/pages/interfaces.ts","./src/rotas/index.tsx","./src/services/HttpRequest.ts","./src/styles/GlobalStyled.tsx"],"version":"5.6.2"}

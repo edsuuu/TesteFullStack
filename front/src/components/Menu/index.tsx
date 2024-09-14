@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import { CategoriasDivs, Navbar, Right } from './styled';
+import { CategoriasDivs, Navbar, Right, Textos } from './styled';
 
 type MenuProps = {
     categorias: string[];
@@ -35,11 +35,11 @@ const Menu: React.FC<MenuProps> = ({ categorias, quantidadePorCategoria }) => {
                     <MdArrowBackIosNew />
                 </button>
 
-                <div className='textos'>
+                <Textos>
                     <p>
                         {`(${quantidadeAtual}) ${categoriaAtual ? categoriaAtual : 'Categorias'}`}
                     </p>
-                </div>
+                </Textos>
 
                 <button onClick={trocarCategoria}>
                     <MdArrowForwardIos />

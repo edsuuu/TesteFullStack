@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
-import { Container } from './styled';
+import { Container, Paragraph, Precos } from './styled';
 
 type ContadorProps = {
     precoAtual: number,
@@ -16,23 +16,23 @@ const ContadorValores: React.FC<ContadorProps> = ({ precoAtual, quantidade, acum
 
     return (
         <Container>
-            <div className='prices-div'>
+            <Precos>
                 <h4>Preço Atual</h4>
                 <p>R$ {precoFormatado}</p>
-            </div>
+            </Precos>
             <button onClick={diminuirQuantidade}>
                 <FaMinus />
             </button>
-            <div className='paragraph'>
+            <Paragraph>
                 <p>{quantidade ? quantidade : 0}</p>
-            </div>
+            </Paragraph>
             <button onClick={aumentarQuantidade}>
                 <FaPlus />
             </button>
-            <div className='prices-div'>
+            <Precos>
                 <h4>Acumulado</h4>
                 <p>R$ {acumuladoFormatado}</p>
-            </div>
+            </Precos>
         </Container>
     );
 };

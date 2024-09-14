@@ -7,8 +7,6 @@ export const Container = styled.div`
     justify-content: center;
     padding: 10px;
     gap: 10px;
-    font-family: "Poppins", sans-serif;
-
 
     button {
         display: flex;
@@ -25,22 +23,22 @@ export const Container = styled.div`
             transform: scale(0.94);
         }
     }
+`;
 
-    .paragraph{
-        border: 1px solid #6f97ab;
-        color: #6f97ab;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        padding: 5px;
-        font-size: 1.5rem;
-    }
-    .prices-div{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+export const Paragraph = styled.div`
+    border: 1px solid #6f97ab;
+    color: #6f97ab;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    font-size: 1.5rem;
+`;
 
-    }
+export const Precos = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;

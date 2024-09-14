@@ -2,7 +2,7 @@ import React from 'react';
 import { Produto } from '../../pages/Home/interfaces';
 import ImageComponent from '../ImageComponent';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import { ContainerImg } from './styled';
+import { ButtonsTrocarProdutos, ContainerImg, Linha } from './styled';
 
 type ImagePrincipalProps = {
     produtoAtual: Produto | null
@@ -14,7 +14,7 @@ const ImagemPrincipal: React.FC<ImagePrincipalProps> = ({ produtoAtual, alterarA
     return (
         <ContainerImg>
             <ImageComponent company_key={produtoAtual?.images[0].companies_key} path={produtoAtual?.images[0].path} />
-            <div className='buttons-trocar-produts'>
+            <ButtonsTrocarProdutos>
                 <button
                     onClick={alterarAntesProduto}
                 >
@@ -25,8 +25,8 @@ const ImagemPrincipal: React.FC<ImagePrincipalProps> = ({ produtoAtual, alterarA
                 >
                     <MdArrowForwardIos />
                 </button>
-            </div>
-            <div className='linha-img'></div>
+            </ButtonsTrocarProdutos>
+            <Linha></Linha>
         </ContainerImg >
     );
 };

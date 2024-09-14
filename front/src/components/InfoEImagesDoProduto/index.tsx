@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from './styled';
+import { Container, Miniaturas } from './styled';
 import { FaExclamation, FaShoppingCart } from 'react-icons/fa';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import ImageComponent from '../ImageComponent';
@@ -20,11 +20,11 @@ const InfoEImagesDoProduto: React.FC<CustosDoProdutoComponentProps> = ({ produto
             <button onClick={setModalBuscar}>
                 <FaMagnifyingGlass size={18} />
             </button>
-            <div className='containerMiniaturas'>
+            <Miniaturas>
                 {produtoAtual?.images.map((item, index) => (
                     <ImageComponent key={index} company_key={item.companies_key} path={item.path} />
                 ))}
-            </div>
+            </Miniaturas>
             <button>
                 <FaShoppingCart size={18} />
             </button>

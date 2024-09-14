@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    /* background-color: #81aa80; */
     display: flex;
     padding: 5px 0;
     flex-direction: row;
@@ -27,13 +26,10 @@ export const Container = styled.div`
         }
     }
 
+`;
 
-    .containerMiniaturas{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-
-    }
-
-
+export const Miniaturas = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 `;

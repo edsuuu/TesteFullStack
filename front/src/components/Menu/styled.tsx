@@ -19,11 +19,6 @@ export const CategoriasDivs = styled.div`
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    .textos{
-        background-color: white;
-        padding: 5px;
-        border-radius: 5px;
-    }
 
     button {
         display: flex;
@@ -41,6 +36,12 @@ export const CategoriasDivs = styled.div`
             transform: scale(0.96)
         }
     }
+`;
+
+export const Textos = styled.div`
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
 `;
 
 export const Right = styled.div`

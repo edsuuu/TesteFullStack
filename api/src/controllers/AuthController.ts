@@ -4,12 +4,7 @@ import jwt from 'jsonwebtoken';
 import Auth from '../model/Auth';
 
 class AuthController {
-    private auth: Auth;
-
-    constructor() {
-        this.auth = new Auth();
-        this.login = this.login.bind(this);
-    }
+    constructor() {}
 
     async login(req: Request, res: Response): Promise<Response> {
         const { email } = req.body;
@@ -18,7 +13,9 @@ class AuthController {
             return res.status(400).json({ status: 400, errors: 'Email invalido' });
         }
 
-        const emailExists: boolean = await this.auth.autenticarUsuario(email);
+        const authInstance = new Auth();
+
+        const emailExists: boolean = await authInstance.autenticarUsuario(email);
 
         function generateToken(email: string): string | null {
             if (emailExists) {

@@ -32,4 +32,11 @@ export const Miniaturas = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
+    cursor: pointer;
+
+    img {
+        border: 1px solid #809caa;
+        width: 25px;
+        height: 35px
+    }
 `;

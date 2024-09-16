@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    border: 1px solid #5da0ad;
-    padding: 2px;
+    padding: 3px 2px;
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -10,8 +9,10 @@ export const Container = styled.div`
     align-items: center;
 
     img {
-        width: 25px;
-        height: 35px
+        width: 100%;
+        height: 545px;
     }
 
+
 `;
+

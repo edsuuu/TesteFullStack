@@ -11,7 +11,7 @@ export const ModalsContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #0505054d;
+    background-color: rgba(0, 0, 0, 0.2);
 `;
 
 export const MainModal = styled.div`
@@ -23,6 +23,7 @@ export const MainModal = styled.div`
     gap: 10px;
     background-color: white;
     color: black;
+    border: 1px solid #ccc;
 `;
 
 export const TitleMain = styled.div`

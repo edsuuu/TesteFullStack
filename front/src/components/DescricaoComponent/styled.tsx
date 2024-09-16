@@ -7,7 +7,7 @@ export const InfoQuantidade = styled.div`
     align-items: center;
     padding: 10px;
     gap: 10px;
-    font-size: 1.1rem;
+    font-size: 1.03rem;
 
     button {
         display: flex;
@@ -22,6 +22,11 @@ export const InfoQuantidade = styled.div`
         &:active {
             transform: scale(0.96)
         }
+    }
+
+    @media (max-width: 400px) {
+        font-weight: normal;
+        font-size: 1rem;
     }
 
 `;

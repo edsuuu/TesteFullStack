@@ -2,16 +2,17 @@ import React from 'react';
 import { Container, Miniaturas } from './styled';
 import { FaExclamation, FaShoppingCart } from 'react-icons/fa';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import ImageComponent from '../ImageComponent';
 import { Produto } from '../../pages/Home/interfaces';
 
 type CustosDoProdutoComponentProps = {
     setModalInfo: () => void;
     setModalBuscar: () => void;
     produtoAtual: Produto | null;
+    handleItemClick: (index: number) => void;
 }
 
-const InfoEImagesDoProduto: React.FC<CustosDoProdutoComponentProps> = ({ produtoAtual, setModalInfo, setModalBuscar }) => {
+const InfoEImagesDoProduto: React.FC<CustosDoProdutoComponentProps> = ({ produtoAtual, setModalInfo, setModalBuscar, handleItemClick }) => {
+
     return (
         <Container>
             <button onClick={setModalInfo}>
@@ -22,8 +23,13 @@ const InfoEImagesDoProduto: React.FC<CustosDoProdutoComponentProps> = ({ produto
             </button>
             <Miniaturas>
                 {produtoAtual?.images.map((item, index) => (
-                    <ImageComponent key={index} company_key={item.companies_key} path={item.path} />
+                    <img
+                        key={index}
+                        src={`https://api.forca-de-vendas.integrador.backup.e-catalogos.net/images/${item.companies_key}/${item.path}`} alt={item.path}
+                        onClick={() => handleItemClick(index)}
+                    />
                 ))}
+
             </Miniaturas>
             <button>
                 <FaShoppingCart size={18} />

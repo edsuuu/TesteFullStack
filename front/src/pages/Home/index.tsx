@@ -1,31 +1,36 @@
-/* eslint-disable prefer-const */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Menu from '../../components/Menu';
 import SizeProducts from '../../components/SizeProducts';
 import ContadorValores from '../../components/ContadorValores';
-import { HttpRequest } from '../../services/HttpRequest';
-import { Produto } from './interfaces';
 import { Container } from './styled';
 import InformacoesModal from '../../components/InformacoesModal';
 import SearchModal from '../../components/SearchModal';
 import DescricaoComponent from '../../components/DescricaoComponent';
 import InfoEImagesDoProduto from '../../components/InfoEImagesDoProduto';
 import ImagemPrincipal from '../../components/ImagemPrincipal';
+import { ProdutosContext } from '../../contexts/modules/context';
+import { carregarTodosProdutos } from '../../contexts/modules/actions';
 
 const Home: React.FC = () => {
-    const [produtos, setProdutos] = useState<Produto[]>([]);
 
-    const [categorias, setCategorias] = useState<string[]>([]);
+    const ctx = useContext(ProdutosContext);
+
+    const reduzirArrayDeProdutos = ctx?.produtosState.produtos.slice(10, 17) || [];
+
+    if (reduzirArrayDeProdutos === undefined) return null;
+
+    const [categorias, setCategorias] = useState<string>('');
     const [qntPorCategoria, setQntPorCategoria] = useState<{ category: string, count: number }[]>([]);
     const [trocarDiv, SetTrocarDiv] = useState<boolean>(false);
     const [quantidade, setQuantidade] = useState<number>(0);
     const [modalInfo, setModalInfo] = useState<boolean>(false);
     const [modalBuscar, setModalBuscar] = useState<boolean>(false);
-
     const [produtoIndex, setProdutoIndex] = useState<number>(0);
     const [refBusca, setRefBusca] = useState<string>('');
     const [packAtual, setPackAtual] = useState<number>(0);
+
+    const [imageIndex, setImageIndex] = useState<number>(0);
 
     const [quantidadePorTamanho, setQuantidadePorTamanho] = useState({
         P: 0,
@@ -35,36 +40,48 @@ const Home: React.FC = () => {
     });
 
     const handleAumentarQuantidade = () => {
-        setQuantidade(prevQuantidade => prevQuantidade + 1);
-        const produtoAtual = produtos[produtoIndex];
+        setQuantidade(prevQuantidade => {
+            const novaQuantidade = prevQuantidade + 1;
 
-        if (produtoAtual) {
-            const quantidadeAtualizada = quantidade + 1;
-            setQuantidade(quantidadeAtualizada);
-            localStorage.setItem(`quantidade_produto_${produtoAtual.id}`, quantidadeAtualizada.toString());
-        }
+            const produtoAtual = reduzirArrayDeProdutos[produtoIndex];
+
+            if (produtoAtual) {
+                const produtoArmazenado = localStorage.getItem(`quantidade_produto_${produtoAtual.id}`);
+                const dadosProduto = produtoArmazenado ? JSON.parse(produtoArmazenado) : { quantidade: 0, valor: produtoAtual.price };
+
+                dadosProduto.quantidade = novaQuantidade;
+
+                localStorage.setItem(`quantidade_produto_${produtoAtual.id}`, JSON.stringify(dadosProduto));
+            }
+
+            return novaQuantidade;
+        });
     };
 
     const handleDiminuirQuantidade = () => {
-        const produtoAtual = produtos[produtoIndex];
+        setQuantidade(prevQuantidade => {
+            const novaQuantidade = prevQuantidade > 0 ? prevQuantidade - 1 : 0;
 
-        if (produtoAtual) {
-            let quantidadeArmazenada = localStorage.getItem(`quantidade_produto_${produtoAtual.id}`);
-            let quantidadeAtual = quantidadeArmazenada ? parseInt(quantidadeArmazenada, 10) : 0;
+            const produtoAtual = reduzirArrayDeProdutos[produtoIndex];
 
-            if (quantidadeAtual > 0) {
-                quantidadeAtual--;
+            if (produtoAtual) {
+                const produtoArmazenado = localStorage.getItem(`quantidade_produto_${produtoAtual.id}`);
+                const dadosProduto = produtoArmazenado ? JSON.parse(produtoArmazenado) : { quantidade: 0, valor: produtoAtual.price };
+
+                dadosProduto.quantidade = novaQuantidade;
+
+                localStorage.setItem(`quantidade_produto_${produtoAtual.id}`, JSON.stringify(dadosProduto));
             }
-            setQuantidade(quantidadeAtual);
 
-            localStorage.setItem(`quantidade_produto_${produtoAtual.id}`, quantidadeAtual.toString());
-        }
+            return novaQuantidade;
+        });
     };
 
     const alterarProduto = (indice: number) => {
         setProdutoIndex(indice);
-
-        const produtoSelecionado = produtos[indice];
+        setImageIndex(0);
+        
+        const produtoSelecionado = reduzirArrayDeProdutos[indice];
 
         if (produtoSelecionado && produtoSelecionado.skus) {
             const quantidadePorTamanhoTemp = produtoSelecionado.skus.reduce((acumulador, sku) => {
@@ -85,13 +102,29 @@ const Home: React.FC = () => {
                 return acumulador;
             }, { P: 0, M: 0, G: 0, GG: 0 });
 
+            setCategorias(produtoSelecionado.category);
+
             setQuantidadePorTamanho(quantidadePorTamanhoTemp);
 
-            const quantidadeArmazenada = localStorage.getItem(`quantidade_produto_${produtoSelecionado.id}`);
-            setQuantidade(quantidadeArmazenada ? parseInt(quantidadeArmazenada, 10) : 0);
+            const produtoArmazenado = localStorage.getItem(`quantidade_produto_${produtoSelecionado.id}`);
 
-            if (!quantidadeArmazenada) {
-                localStorage.setItem(`quantidade_produto_${produtoSelecionado.id}`, '0');
+            if (produtoArmazenado) {
+                const dadosProduto = JSON.parse(produtoArmazenado);
+                setQuantidade(dadosProduto.quantidade ? parseInt(dadosProduto.quantidade, 10) : 0);
+            } else {
+
+                const calcDoPack = Object.values(quantidadePorTamanhoTemp).reduce((acumulador, quantidade) => acumulador + quantidade, 0);
+
+                const totalAcumulado = calcDoPack * (produtoSelecionado.price || 0);
+
+                const novoProduto = {
+                    quantidade: 0,
+                    valor: produtoSelecionado.price,
+                    valorDoPack: totalAcumulado
+                };
+
+                localStorage.setItem(`quantidade_produto_${produtoSelecionado.id}`, JSON.stringify(novoProduto));
+                setQuantidade(0);
             }
 
         } else {
@@ -99,8 +132,25 @@ const Home: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+
+        const contagemCategoriasArray = reduzirArrayDeProdutos.reduce((acumulador: { category: string, count: number }[], produto) => {
+            if (produto.category === categorias) {
+                const categoriaExistente = acumulador.find(item => item.category === produto.category);
+                if (categoriaExistente) {
+                    categoriaExistente.count += 1;
+                } else {
+                    acumulador.push({ category: produto.category, count: 1 });
+                }
+            }
+            return acumulador;
+        }, []);
+
+        setQntPorCategoria(contagemCategoriasArray);
+    }, [categorias]);
+
     const buscarProdutoPorRef = () => {
-        const indiceEncontrado = produtos.findIndex(produto => produto.reference === refBusca);
+        const indiceEncontrado = reduzirArrayDeProdutos.findIndex(produto => produto.reference === refBusca);
 
         if (indiceEncontrado !== -1) {
             alterarProduto(indiceEncontrado);
@@ -114,6 +164,7 @@ const Home: React.FC = () => {
     const handleModalSearch = () => {
         setModalBuscar(!modalBuscar);
     };
+
     const handleModalInfo = () => {
         setModalInfo(!modalInfo);
     };
@@ -123,48 +174,16 @@ const Home: React.FC = () => {
     };
 
     useEffect(() => {
+        carregarTodosProdutos(ctx?.setProdutosDispatch);
+    }, []);
+
+    useEffect(() => {
         const total = Object.values(quantidadePorTamanho).reduce((acumulador, valor) => acumulador + valor, 0);
         setPackAtual(total);
 
     }, [quantidadePorTamanho]);
 
-    useEffect(() => {
-        async function trazerProdutos() {
-            try {
-                const response = await HttpRequest.get<Produto[]>('/produtos');
-
-                const dividirObj = response.data.slice(0, 7);
-
-                setProdutos(dividirObj);
-
-                const categoriasExtraidas = [...new Set(dividirObj.map((produto: Produto) => produto.category))];
-
-                const contagemCategoriasArray = dividirObj.reduce((acumulador: { category: string, count: number }[], produto) => {
-                    if (produto.category) {
-                        const categoriaExistente = acumulador.find(item => item.category === produto.category);
-                        if (categoriaExistente) {
-                            categoriaExistente.count += 1;
-                        } else {
-                            acumulador.push({ category: produto.category, count: 1 });
-                        }
-                    }
-                    return acumulador;
-                }, []);
-
-                setCategorias(categoriasExtraidas);
-
-                setQntPorCategoria(contagemCategoriasArray);
-
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        trazerProdutos();
-
-    }, []);
-
-    const produtoAtual = produtos.length > 0 ? produtos[produtoIndex % produtos.length] : null;
+    const produtoAtual = reduzirArrayDeProdutos[produtoIndex];
 
     const totalAcumulado = packAtual * (produtoAtual?.price || 0);
 
@@ -174,21 +193,25 @@ const Home: React.FC = () => {
         <Container>
 
             <Menu
+                voltarCategoria={() => console.log(1)}
+                trocarCategoria={() => console.log(2)}
                 categorias={categorias}
                 quantidadePorCategoria={qntPorCategoria}
             />
 
-            <div>
+            <>
                 <ImagemPrincipal
-                    produtoAtual={produtoAtual}
-                    alterarAntesProduto={() => alterarProduto((produtoIndex - 1 + produtos.length) % produtos.length)}
-                    alterarProxProduto={() => alterarProduto((produtoIndex + 1) % produtos.length)}
+                    produtoAtual={reduzirArrayDeProdutos[produtoIndex]}
+                    alterarAntesProduto={() => alterarProduto((produtoIndex - 1 + reduzirArrayDeProdutos.length) % reduzirArrayDeProdutos.length)}
+                    alterarProxProduto={() => alterarProduto((produtoIndex + 1) % reduzirArrayDeProdutos.length)}
+                    imageIndex={imageIndex}
                 />
 
                 <InfoEImagesDoProduto
                     setModalInfo={handleModalInfo}
                     setModalBuscar={handleModalSearch}
                     produtoAtual={produtoAtual}
+                    handleItemClick={(index) => setImageIndex(index)}
 
                 />
 
@@ -205,7 +228,6 @@ const Home: React.FC = () => {
                             diminuirQuantidade={handleDiminuirQuantidade}
                             aumentarQuantidade={handleAumentarQuantidade}
                             quantidade={quantidade} precoAtual={precoAtual}
-                            acumulado={totalAcumulado}
                         />
 
                         <SizeProducts tamanhoG={quantidadePorTamanho.G}
@@ -228,12 +250,11 @@ const Home: React.FC = () => {
                             aumentarQuantidade={handleAumentarQuantidade}
                             quantidade={quantidade}
                             precoAtual={precoAtual}
-                            acumulado={totalAcumulado}
                         />
                     </>
                 )}
 
-            </div>
+            </>
 
             {modalInfo && (
                 <InformacoesModal

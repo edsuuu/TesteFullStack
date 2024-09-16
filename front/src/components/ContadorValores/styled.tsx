@@ -23,6 +23,15 @@ export const Container = styled.div`
             transform: scale(0.94);
         }
     }
+
+    @media (max-width: 468px) {
+        button{
+            padding: 15px 13px;
+
+        }
+
+    }
+
 `;
 
 export const Paragraph = styled.div`
@@ -34,6 +43,11 @@ export const Paragraph = styled.div`
     align-items: center;
     padding: 5px;
     font-size: 1.5rem;
+
+    @media (max-width: 450px) {
+        font-size: 1.1rem;
+
+    }
 `;
 
 export const Precos = styled.div`
@@ -41,4 +55,20 @@ export const Precos = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    p:nth-child(1){
+        font-weight: bold;
+    }
+
+    @media (max-width: 400px) {
+        p:nth-child(1){
+            font-weight: bold;
+            font-size: 0.92rem;
+        }
+        p:nth-child(2){
+            font-weight: normal;
+            font-size: 0.85rem;
+        }
+    }
+
 `;

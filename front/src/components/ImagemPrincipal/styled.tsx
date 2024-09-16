@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
 export const ContainerImg = styled.div`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        img {
-            width: 400px;
-            height: 635px;
-        }
+    /* img {
+        width: 100%;
+        box-sizing: border-box;
+    } */
+
+
 `;
 
 export const Linha = styled.div`

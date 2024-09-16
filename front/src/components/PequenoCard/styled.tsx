@@ -9,7 +9,7 @@ export const BoxSizing = styled.div`
 export const Valores = styled.div`
     display: flex;
     flex-direction: row;
-    padding: 6px 15px;
+    padding: 0px 15px;
     justify-content: center;
     border-radius: 6px;
     background-color: white;

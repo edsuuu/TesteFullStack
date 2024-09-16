@@ -8,12 +8,17 @@ type ImagePrincipalProps = {
     produtoAtual: Produto | null
     alterarProxProduto: () => void
     alterarAntesProduto: () => void
+    imageIndex: number
 };
 
-const ImagemPrincipal: React.FC<ImagePrincipalProps> = ({ produtoAtual, alterarAntesProduto, alterarProxProduto }) => {
+const ImagemPrincipal: React.FC<ImagePrincipalProps> = ({ produtoAtual, alterarAntesProduto, alterarProxProduto, imageIndex }) => {
+
     return (
         <ContainerImg>
-            <ImageComponent company_key={produtoAtual?.images[0].companies_key} path={produtoAtual?.images[0].path} />
+            <div>
+                <ImageComponent company_key={produtoAtual?.images[0].companies_key} path={produtoAtual?.images[imageIndex].path} />
+            </div>
+
             <ButtonsTrocarProdutos>
                 <button
                     onClick={alterarAntesProduto}

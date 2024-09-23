@@ -19,11 +19,6 @@ class ProdutosController {
 
         const { id } = req.params;
 
-        if (!id) {
-            res.status(400).json({ error: 'ID do produto não fornecido' });
-            return;
-        }
-
         const convertStringParaNumero: number = Number(id);
 
         const produtos: Array<string> = await produtosInstance.trazerUmProduto(convertStringParaNumero);

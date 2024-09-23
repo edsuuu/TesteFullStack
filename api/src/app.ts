@@ -7,7 +7,7 @@ import cors from 'cors';
 
 dotenv.config();
 
-const whitelist = ['http://localhost:3000', 'http://127.0.0.1:5173', 'http://localhost:5173'];
+const whitelist = [process.env.WHITELIST1, process.env.WHITELIST2, process.env.WHITELIST3];
 
 const corsOptions: cors.CorsOptions = {
     origin: function (origin, callback) {

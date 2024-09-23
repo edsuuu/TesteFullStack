@@ -2,16 +2,11 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 import Auth from '../model/Auth';
-
 class AuthController {
     constructor() {}
 
     async login(req: Request, res: Response): Promise<Response> {
         const { email } = req.body;
-
-        if (!email) {
-            return res.status(400).json({ status: 400, errors: 'Email invalido' });
-        }
 
         const authInstance = new Auth();
 
